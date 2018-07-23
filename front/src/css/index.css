@@ -1,0 +1,54 @@
+*{margin: 0; padding: 0; list-style: none;text-decoration: none;}
+
+.sl-header{width: 100%; height: 75px;background-color:#18a689;;box-sizing: border-box;}
+.sl-header h1{
+    width: 56px;height: 56px;border-radius: 50%;
+    border:2px solid #fff;line-height: 56px;text-align: center;font-weight: bold;color:#fff;margin-left: 30px;font-size: 16px;display:inline-block;margin-right: 5px;
+}
+.sl-header .logo{
+    color:#fff;font-weight: bold;font-size: 20px;
+    line-height: 71px;
+}
+.sl-header ul{
+    float: right;width: 500px;box-sizing: border-box;padding:8px;
+}
+.sl-header ul li{
+    width: 136px;height: 75px;float: left;
+}
+.sl-header ul li i{
+    display:inline-block;width: 120px;font-style:normal;
+}
+.sl-header ul li a{
+    display: inline-block;border-left:1px solid #fff;height: 60px;text-align: center;color:#fff;font-weight: bold;
+}
+.sl-nav{width: 220px; position: absolute; top: 75px; left: 0; bottom: 0; background: #283440;color:#fff;border-top:1px solid #e1e1e1;box-sizing: border-box;}
+.sl-nav li{
+    height: 70px;border-bottom:1px solid #000;
+    line-height: 70px;text-align: center;
+}
+.sl-nav ul i{
+    font-style:normal;margin-right: 11px;
+}
+.sl-nav ul li a{ color:#fff;font-size:20px;}
+
+
+
+.sl-content{position: absolute; left: 220px; right: 0; top: 75px; bottom: 0;overflow-x: hidden;}
+
+
+.sl-content>i{
+    display: block;background: #e1e1e1;text-align: center;line-height: 610px;font-size: 500px;color:#ccc;width: 100%;height: 100%;
+}
+
+/*用户*/
+.sl-content .xiugai{
+    cursor: pointer;
+}
+.sl-content .shanchu{
+    cursor: pointer;
+}
+.valid-false{color: red;}
+
+.xiugai:hover,.shanchu:hover{
+    color:#18a689;
+}

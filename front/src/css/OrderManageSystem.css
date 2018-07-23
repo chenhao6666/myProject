@@ -1,0 +1,90 @@
+*{margin: 0; padding: 0; list-style: none;text-decoration: none;}
+.sl-header{
+    width: 100%; 
+    height: 75px;
+    background-color:#08A2BA;
+    box-sizing: border-box;
+}
+.sl-header h1{
+    width: 56px;height: 56px;border-radius: 50%;
+    border:2px solid #fff;line-height: 56px;text-align: center;font-weight: bold;color:#fff;margin-left: 30px;font-size: 16px;display:inline-block;margin-right: 5px;
+}
+.sl-header .logo{
+    color:#fff;font-weight: bold;font-size: 20px;
+    line-height: 71px;
+}
+.sl-header ul{
+    float: right;width: 376px;box-sizing: border-box;padding:8px;
+}
+.sl-header ul li{
+    width: 120px;height: 75px;float: left;
+}
+.sl-header ul li i{
+    display:inline-block;width: 120px;font-style:normal;
+}
+.sl-header ul li a{
+    display: inline-block;border-left:1px solid #fff;height: 60px;text-align: center;color:#fff;font-weight: bold;
+}
+ 
+#liveBox{
+    width: 220px;
+    position: absolute;;
+    left:0px;
+    top:75px;
+    bottom:0px;
+    background: #333;
+}
+
+#main-box{
+    position:absolute;
+    left:220px;
+    top:75px;
+    right:0px;
+    bottom:0px;
+    padding-bottom:50px;
+}
+#main-box #orderBox{
+    position: absolute;
+    top:50px;
+    left:50px;
+    right:50px;
+    bottom:50px;
+    overflow: auto;
+    border:5px solid #ccc;
+    background: #ccc;
+}
+
+#main-box #orderBox li{
+    display: block;
+    margin-top:20px;
+    box-sizing: border-box;
+    /* height: 150px; */
+    width: 100%;
+    background: #fff;
+    border:5px solid #ccc;
+    padding:10px 0px;
+}
+
+#main-box #orderBox li h3{
+    display: inline-block;
+    padding-left:15px;
+}
+
+#main-box #orderBox li #orderDate{
+    margin-left:15px;
+    color:#888;
+}
+
+#main-box #orderBox li #tackOrder{
+    float:right;
+    margin-right:50px;
+}
+#main-box #orderBox li p{
+    padding:15px;
+}
+#main-box #orderBox li p span:first-child{
+    font-weight: bold;
+}
+#main-box #orderBox li p span{
+    padding:0 10px;
+}

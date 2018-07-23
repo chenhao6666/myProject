@@ -1,0 +1,51 @@
+<h1>添加库存</h1>
+<form>
+    <div class="form-group  col-md-4">
+        <label for="raw">id</label>
+        <input type="text" class="form-control required " id="id">
+    </div>
+    <div class="form-group  col-md-4">
+        <label for="num">商品名称</label>
+        <input type="text" class="form-control required " id="goodsname">
+    </div>
+    <div class="form-group  col-md-4">
+        <label for="unit">价格</label>
+        <input type="text" class="form-control required " id="price">
+    </div>
+    <input type="button" class="btn btn-defaul" value="添加" style="width:60px; margin-left:130px;" id="add_goods" />
+</form>
+<script>
+    $('#add_goods').click(function () {
+       // ID只能为数字
+        if (!/^\d{4}$/.test($('#id').val())) {
+            $.alert('id只能为4个数字');
+            return false;
+        }
+        //原料只能输入中文
+        if (!/^[\u2E80-\u9FFF]+$/.test($('#goodsname').val())) {
+            $.alert('商品只能为中文');
+            return false;
+        }
+        // 价格只能为数字
+        if (!/^\d+$/.test($('#price').val())) {
+            $.alert('价格只能为数字');
+            return false;
+        }else {
+            $.post(
+                'http://localhost:3030/add_goods', {
+                    id: $('#id').val(),
+                    goodsname: $('#goodsname').val(),
+                    price: $('#price').val(),
+                },
+                function (res) {
+                    // console.log(res.status);
+                    if (res.status) {
+                        $.alert('添加成功');
+                        $('.sl-content').load(goods.html);
+                    }
+                }
+            )
+        }
+        
+    })
+</script>

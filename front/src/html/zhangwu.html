@@ -1,0 +1,135 @@
+<div class="bs-example" data-example-id="hoverable-table">
+    <input type="button" id="btn_zhangwu" value="账务管理" />
+</div>
+<script>
+    $(function () {
+        $('#btn_zhangwu').css({
+            width: '100%',
+            height: '50px',
+            margin: '2px',
+            borderRadius: '5%',
+            cursor: 'pointer',
+            backgroundColor: '#18a689',
+            fontSize: '40px',
+            lineHeight: '40px',
+            color: '#fff'
+        })
+        $.ajax({
+            url: 'http://localhost:3030/orders',
+            success: function (res) {
+                // console.log(res);
+
+                var len = res.data.length;
+                var arrs = [];
+                for (var i = 0; i < len; i++) {
+                    var goodsArr = res.data[i].salesGoods.split('|');
+                    arrs += goodsArr;
+                }
+                // var nameArr = []
+                // for (var a = 0; a < goodsArr.length; a++) {
+                //     var obj = eval('(' + goodsArr[a] + ')');
+                //     nameArr.push(obj);
+                // }
+                // var tbName = [];
+                // nameArr.forEach(item => {
+                //     tbName.push(item.name);
+                // });
+                // console.log(tbName);
+
+                // var goodsArr = data[i].Goods.split('|');
+                // 生成表格
+                var table = $("<table></table>");
+                var thead = $("<thead></thead>");
+                var tfoot = $('<tfoot></tfoot>')
+                var total = $('<span>总收入：</span><span class="total">002</span>:')
+                var tbody = $("<tbody></tbody>");
+                var body = document.querySelector('.sl-content');
+
+                var columns = ["OrderId", "salesGoods", "Date", "state", "OrderPrice"];
+                var tr = $('<tr></tr>');
+                for (let col of columns) {
+                    $('<th class="thi"></th>').text(col).appendTo(tr);
+                }
+                tr.appendTo(thead);
+
+                //generate tbody ?
+                for (let item of res.data) {
+                    tr = $('<tr></tr>');
+                    for (let col of columns) {
+                        $('<td></td>').text(item[col]).appendTo(tr);
+                    }
+                    tr.appendTo(tbody);
+                }
+                thead.appendTo(table);
+                tbody.appendTo(table);
+                total.appendTo(tfoot);
+                tfoot.appendTo(table);
+
+                table.addClass('table table-hover').appendTo(body);
+                $('.total')[0].style.color = 'red';
+                $(function () {
+                    var total = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        total.push(res.data[i].OrderPrice)
+                    }
+
+                    function sum(arr) {
+                        var sum = 0;
+                        for (var i = 0; i < arr.length; i++) {
+                            sum += arr[i];
+                        }
+                        return sum;
+                    }
+                    var sums = sum(total);
+                    $('.total')[0].innerHTML = '￥' + sums;
+                })
+
+                //oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+                var thi = document.getElementsByClassName('thi')[2]
+                thi.onclick = function () {
+                    // $('body').html('')         
+                    for (var i = 0; i < res.data.length - 1; i++) {
+                        for (var j = 0; j < res.data.length - 1 - i; j++) {
+                            if (Date.parse(res.data[j].Date) < Date.parse(res.data[j + 1].Date)) {
+                                var temp = res.data[j]
+                                res.data[j] = res.data[j + 1]
+                                res.data[j + 1] = temp;
+                            }
+                        }
+                    }
+                    $('.sl-content').html('');
+                    // console.log(res.data)
+                    var table = $("<table></table>");
+                    var thead = $("<thead></thead>");
+                    var tfoot = $('<tfoot></tfoot>');
+
+                    var tbody = $("<tbody></tbody>");
+                    var body = document.querySelector('.sl-content');
+                    var columns = ["OrderId", "salesGoods", "Date", "state", "OrderPrice"];
+                    var tr = $('<tr></tr>');
+                    for (let col of columns) {
+                        $('<th class="thi"></th>').text(col).appendTo(tr);
+                    }
+                    tr.appendTo(thead);
+
+                    //generate tbody ?
+                    for (let item of res.data) {
+                        tr = $('<tr></tr>');
+                        for (let col of columns) {
+                            $('<td></td>').text(item[col]).appendTo(tr);
+                        }
+                        tr.appendTo(tbody);
+                    }
+                    thead.appendTo(table);
+                    tbody.appendTo(table);
+                    tfoot.appendTo(table);
+
+                    table.addClass('table table-hover').appendTo(body);
+                }
+                // console.log(res.data[0].Date)
+            }
+        })
+    })
+</script>
+
+</html>

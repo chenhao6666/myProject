@@ -1,0 +1,100 @@
+<div>
+    <input type="button" id="btn" value="添加员工" />
+</div>
+<script>
+    $('#btn').css({
+        width: '100%',
+        height: '50px',
+        margin: '2px',
+        borderRadius: '5%',
+        cursor: 'pointer',
+        backgroundColor: '#18a689',
+        fontSize: '40px',
+        lineHeight: '40px',
+        color: '#fff'
+    });
+    $('#btn').click(function () {
+        $('.sl-content').load('employees.html');
+    })
+    $.ajax({
+        url: 'http://localhost:3030/users',
+        success: function (res) {
+
+            //生成表格
+            var table = $("<table></table>");
+            var thead = $("<thead></thead>");
+            var tbody = $("<tbody></tbody>");
+            var content = $('.sl-content')
+            var columns = Object.keys(res.data[0]);
+            var Chinese = ["员工编号", "登录名", "职位", "登录密码", "权限", "修改信息", "删除"];
+            var tr = $('<tr></tr>');
+            for (let col of Chinese) {
+                $('<th></th>').text(col).appendTo(tr);
+            }
+            tr.appendTo(thead);
+
+            //generate tbody ?
+            for (let item of res.data) {
+                tr = $('<tr></tr>');
+                for (let col of columns) {
+                    $('<td></td>').text(item[col]).appendTo(tr);
+
+                }
+                tr_x = $('<td class="xiugai iconfont icon-xiugaijilu"></td>');
+                tr_s = $('<td class="shanchu iconfont icon-shanchu"></td>');
+                tr.appendTo(tbody);
+                tr_x.appendTo(tr);
+                tr_s.appendTo(tr);
+            }
+
+            thead.appendTo(table);
+            tbody.appendTo(table);
+            table.addClass('table table-striped').appendTo(content);
+            $('tr').css({
+                textAlign: 'center'
+            })
+            $('td').css({
+                verticalAlign: 'middle'
+            })
+            // 点击修改
+            $('.xiugai').click(function () {
+                // 获取当前的值
+                var username = ($(event.target).parent())[0].children[1].innerHTML;
+                document.cookie = 'data=' + username;
+                $('.sl-content').load('revise.html');
+
+            })
+            // 点击删除
+            $('.table').click(function () {
+                if ($(event.target).hasClass('shanchu')) {
+                    $.confirm({
+                        confirmButton: '删除',
+                        cancelButton: '取消'
+                    });
+                    $('.content').text('是否删除该用户');
+                    var baba = $(event.target).parent();
+                    console.log(baba[0]);
+                    // 点击删除
+                    $($('.btn-default')[0]).click(function () {
+                        baba.remove();
+                        var removename = baba[0].children[2].innerHTML
+                        // 数据库删除
+                        $.post({
+                            url: 'http://localhost:3030/removeusers',
+                            data: {
+                                name: removename
+                            },
+                            success: function (res) {
+                                console.log(res);
+                            }
+                        })
+                    })
+                    // 点击取消
+                    $($('.btn-default')[1]).click(function () {
+                        // console.log('取消删除')
+                    })
+                }
+            })
+        }
+    })
+</script>

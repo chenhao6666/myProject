@@ -1,0 +1,102 @@
+<div>
+    <input type="button" id="btn_goods" value="添加商品" />
+</div>
+<script>
+    //按钮样式 
+    $('#btn_goods').css({
+        width: '100%',
+        height: '50px',
+        margin: '2px',
+        borderRadius: '5%',
+        cursor: 'pointer',
+        backgroundColor: '#18a689',
+        fontSize: '40px',
+        lineHeight: '40px',
+        color: '#fff'
+    });
+    $('#btn_goods').click(function () {
+        $('.sl-content').load('addgoods.html');
+    })
+    $.ajax({
+        url: 'http://localhost:3030/sl_goods',
+        success: function (res) {
+            // 生成表格
+            var table = $("<table></table>");
+            var thead = $("<thead></thead>");
+            var tbody = $("<tbody></tbody>");
+            var content = $('.sl-content')
+            var columns = Object.keys(res.data[0]);
+            var Chinese = ["序列号","ID", "名称", "价格",  "修改信息", "删除"];
+            var tr = $('<tr></tr>');
+            for (let col of Chinese) {
+                $('<th></th>').text(col).appendTo(tr);
+            }
+            tr.appendTo(thead);
+
+            //generate tbody ?
+            for (let item of res.data) {
+                tr = $('<tr></tr>');
+                for (let col of columns) {
+                    $('<td></td>').text(item[col]).appendTo(tr);
+                }
+                tr_x = $('<td class="xiugai iconfont icon-xiugaijilu"></td>');
+                tr_s = $('<td class="shanchu iconfont icon-shanchu"></td>');
+                tr.appendTo(tbody);
+                tr_x.appendTo(tr);
+                tr_s.appendTo(tr);
+            }
+
+            thead.appendTo(table);
+            tbody.appendTo(table);
+            table.addClass('table table-striped').appendTo(content);
+            $('tr').css({
+                textAlign: 'center'
+            })
+            $('td').css({
+                verticalAlign: 'middle'
+            })
+            // // 点击修改
+            $('.xiugai').click(function () {
+                // 获取当前的值
+                var id = ($(event.target).parent())[0].children[1].innerHTML;
+                window.localStorage.setItem('goods', id);
+                $('.sl-content').load('updategoods.html');
+
+            })
+            // 点击删除
+            $('.table').click(function () {
+                if ($(event.target).hasClass('shanchu')) {
+                    $.confirm({
+                        confirmButton: '清空',
+                        cancelButton: '取消'
+                    });
+                    $('.content').text('是否清空该商品');
+                    var baba = $(event.target).parent();
+                    // 点击删除
+                    $($('.btn-default')[0]).click(function () {
+                        baba.remove();
+                        var removename = baba[0].children[1].innerHTML
+                        console.log(removename)
+                        // 数据库删除
+                        $.post({
+                            url: 'http://localhost:3030/goods_remove',
+                            data: {
+                                raw: removename
+                            },
+                            success: function (res) {
+                                console.log(res);
+
+                            }
+                        })
+                    })
+                    // 点击取消
+                    $($('.btn-default')[1]).click(function () {
+                        console.log('取消删除')
+                    })
+
+
+                }
+            })
+        }
+    })
+</script>

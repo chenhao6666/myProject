@@ -1,0 +1,60 @@
+<h1>
+    添加员工</h1>
+<form>
+    <div class="form-group  col-md-4">
+        <label for="username">username</label>
+        <input type="text" class="form-control required " id="usern" name="usern">
+    </div>
+    <div class="form-group  col-md-4">
+        <label for="name">naem</label>
+        <input type="text" class="form-control required " id="name" name="name">
+    </div>
+    <div class="form-group  col-md-4">
+        <label for="password">password</label>
+        <input type="password" class="form-control required " id="password" name=" password">
+    </div>
+    <div class="form-group  col-md-4">
+        <label for="permission">permission</label>
+        <input type="text" class="form-control required " id="permission" name=" permission">
+    </div>
+    <input type="button" class="btn btn-defaul" value="添加" style="width:60px; margin-left:130px;" id="btn_btn" />
+</form>
+<script>
+    $('#btn_btn').click(function () {
+        // usernaem只能为英文
+        if (!/^[A-Za-z]+$/.test($('#usern').val())) {
+            $.alert('username只能为英文');
+            return false;
+        }
+        //name只能输入中文
+        if (!/^[\u2E80-\u9FFF]+$/.test($('#name').val())) {
+            $.alert('name只能为中文');
+            return false;
+        }
+        // password只能为数字
+        if (!/^\d+$/.test($('#password').val())) {
+            $.alert('password只能为数字');
+            return false;
+        }
+        // permission只能为0到9数字
+        if (!/^\d+$/.test($('#permission').val())) {
+            $.alert('permission只能为0到9数字');
+            return false;
+        } else {
+            $.post(
+                'http://localhost:3030/adduser', {
+                    username: $('#usern').val(),
+                    name: $('#name').val(),
+                    password: $('#password').val(),
+                    permission: $('#permission').val()
+                },
+                function (res) {
+                    console.log(res.status);
+                    if (res.status) {
+                        $.alert('添加成功');
+                    }
+                }
+            )
+        }
+    })
+</script>

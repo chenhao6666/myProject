@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="icon" href="../img/96f0e155423b890511e8ea1feb41d434.ico" mce_href="c:/dir/favicon.ico" type="image/x-icon">
+
+    <!-- 生成表格 -->
+    <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../css/index.css" /> -->
+    <!-- 弹窗 -->
+    <!-- <link href="https://cdn.bootcss.com/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"> -->
+    <!-- 字体图标 -->
+    <!-- <link rel="stylesheet" href="../../font_zvoo0h0yv8p/iconfont.css" /> -->
+  
+    <!-- 1 -->
+    <!-- <script src="../../assets/jquery-3.3.1.js"></script> -->
+
+    <!-- <script src="../js/zhangwu.js"></script> -->
+    <!-- 弹窗 -->
+    <!-- <script src="../../assets/jquery-confirm/jquery-confirm.js"></script> -->
+    <!-- <script src="https://cdn.bootcss.com/jquery-confirm/3.3.2/jquery-confirm.min.js"></script> -->
+    <!-- 生成表格 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.css">
+ 
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <!-- 弹窗 -->
+    <link rel="stylesheet" href="../../assets/jquery-confirm/jquery-confirm.css"/>
+    <!-- 字体图标 -->
+    <link rel="stylesheet" href="../../font_oaw9yetihy/iconfont.css" />
+    <!-- 1 -->
+    <script src="../../assets/jquery-3.3.1.js"></script>
+    <!-- 弹窗 -->
+    <script src="../../assets/jquery-confirm/jquery-confirm.js"></script>
+    <script src="../../assets/jquery-validation-1.15.0/dist/jquery.validate.js"></script>
+</head>
+
+<body>
+    <div class="sl-header">
+        <h1>LOGO</h1>
+        <span class="logo">6+奶茶后台管理系统</span>
+        <ul>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont icon-ai-user"></i>
+                    <span id="username"></span>
+                </a>
+            </li>
+            <li>
+                <a href="./index.html" class="goIndex">
+                    <i class="iconfont icon-weibiaoti1"></i>系统首页</a>
+            </li>
+            <li>
+                <a href="javascript:" class="getOut">
+                    <i class="iconfont icon-084tuichu"></i>退出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="sl-nav">
+        <ul>
+            <li>
+                <i class="iconfont icon-kucunguanli"></i>
+                <a href="javascript:" class="inventory">库存管理</a>
+            </li>
+            <li>
+                <i class="iconfont icon-iconyggl"></i>
+                <a href="javascript:" class="employee">员工管理</a>
+            </li>
+            <li>
+                <i class="iconfont icon-shangpin1"></i>
+                <a href="javascript:" class="goods">商品管理</a>
+            </li>
+            <li>
+                <i class="iconfont icon-caiwu2"></i>
+                <a href="javascript:" class="zhangwu">账务管理</a>
+            </li>
+        </ul>
+    </div>
+    <div class="sl-content">
+        <i>6+</i>
+    </div>
+    <script>
+        $(function () {
+            $('.sl-nav').on('click', function (event) {
+                // 是a标签
+                $('.sl-nav a').css({
+                    color: '#fff'
+                });
+                if ($(event.target).is('a')) {
+                    // 点击的class值
+                    var name = $(event.target).prop('class');
+
+                    $('.' + name).css({
+                        color: '#18a689'
+                    });
+                    $('.sl-content').load(name + '.html');
+                }
+            })
+
+            //存放管理员名
+            // var url = window.location.href;
+            // console.log(url);
+
+            // if (url.includes('?')) {
+            // url1 = (url.split('?')[1]).split('=')[1];
+
+            var username = JSON.parse(window.localStorage.getItem('Information'));
+            if (username) {
+                document.getElementById('username').innerHTML = username.name;
+                $('.getOut').on('click', function () {
+                    window.localStorage.removeItem('Information')
+                    // window.localStorage.clear()
+                    window.location.href = './login.html';
+                })
+            } else {
+                alert('请先登录');
+                window.location.href = './login.html';
+            }
+
+
+            // console.log(url1);
+            $.ajax({
+                url: 'http://localhost:3030/users',
+                headers: {"auth": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTIzNTQwNjY5LCJleHAiOjE1MjM2MjcwNjl9.ddkS5XEiMzvNQsk9UlMPhyxPSq5S_oh3Nq19eIm9AJU'},
+                // success: function (res) {
+                // console.log(res);
+
+                // res.data.forEach(item => {
+                //     if (url1 == item.index) {
+                //         // console.log(item.index);
+
+                //         // console.log(document.getElementById('username'));
+
+                //         document.getElementById('username').innerHTML = item.name;
+                //         $('.goIndex')[0].href = './index.html?index=' + item.index;
+                //     }
+                // });
+                // }
+            })
+            // } else {
+            //     alert('请先登录');
+            //     window.location.href = './login.html'
+            // }
+
+
+
+            // var token = window.localStorage.token;
+            // console.log(token);
+
+
+        })
+    </script>
+</body>
+
+</html>

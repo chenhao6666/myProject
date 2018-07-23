@@ -1,0 +1,53 @@
+<h1>修改商品信息</h1>
+<form id="form">   
+    <div class="form-group  col-md-4">
+        <label for="raw">原料</label>
+        <input type="text" class="form-control required " id="raw">
+    </div>
+    <div class="form-group  col-md-4">
+        <label for="num">数量</label>
+        <input type="text" class="form-control required " id="num">
+    </div>
+    <input type="button" class="btn btn-defaul" value="更改"  style="width:60px; margin-left:130px;" id="btn_up" />
+</form>
+<script type="text/javascript">
+    var raw = window.localStorage.getItem('stock');
+            $.ajax({
+                url: 'http://localhost:3030/stock_0',
+                data:{data:raw},
+                success: function(res){
+                    var pla = res.data[0];
+                    console.log(pla)
+                    $('#raw').prop('value',pla.Raw);
+                    $('#num').prop('value',pla.Number);
+                    // 点击更改
+                    $('#btn_up').click(function(){
+                        //原料只能输入中文
+                        if(!/^[\u2E80-\u9FFF]+$/.test($('#raw').val())){
+                            $.alert('原料只能为中文');
+                            return false;
+                        }
+                        // 数量只能为数字
+                        if(!/^\d+$/.test($('#num').val())){
+                            $.alert('数量只能为数字');
+                            return false;
+                        }else{
+                            $.post(
+                                'http://localhost:3030/upstock',
+                                {
+                                    up:raw,
+                                    username:$('#raw').val(),
+                                    name:$('#num').val(),
+                                },
+                                function(res){
+                                    if(res.status){
+                                        $.alert('修改成功');
+                                    }   
+                                    // window.location.href="goods.html";                             
+                                }
+                            )
+                        }
+                    })
+                }
+            })
+</script>

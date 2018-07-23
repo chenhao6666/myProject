@@ -1,0 +1,83 @@
+<h1>修改员工信息</h1>
+<form id="form">
+    <div class="form-group  col-md-4">
+        <label for="usern_0">username</label>
+        <input type="text" class="form-control required " id="usern_0">
+    </div>
+    <div class="form-group  col-md-4">
+        <label for="name_0">naem</label>
+        <input type="text" class="form-control required " id="name_0">
+    </div>
+    <div class="form-group  col-md-4">
+        <label for="password_0">password</label>
+        <input type="password" class="form-control required " id="password_0">
+    </div>
+    <div class="form-group  col-md-4">
+        <label for="permission_0">permission</label>
+        <input type="text" class="form-control required " id="permission_0">
+    </div>
+    <input type="button" class="btn btn-defaul" value="更改" style="width:60px; margin-left:130px;" id="btn_btn0" />
+</form>
+<script type="text/javascript">
+    var cookies = document.cookie;
+    cookies = cookies.split(';');
+    // 遍历数组，找到需要的cookie
+    cookies.forEach(function (item) {
+        var arr = item.split('=');
+        if (arr[0] === 'data') {
+            console.log(arr[1]);
+            $.ajax({
+                url: 'http://localhost:3030/user',
+                data: {
+                    data: arr[1]
+                },
+                success: function (res) {
+                    var pla = res.data[0];
+                    $('#usern_0').prop('value', pla.username);
+                    $('#name_0').prop('value', pla.name);
+                    $('#password_0').prop('value', pla.password);
+                    $('#permission_0').prop('value', pla.permission);
+                    // 点击更改
+                    $('#btn_btn0').click(function () {
+                        // usernaem只能为英文
+                        if (!/^[A-Za-z]+$/.test($('#usern_0').val())) {
+                            $.alert('username只能为英文');
+                            return false;
+                        }
+                        //name只能输入中文
+                        if (!/^[\u2E80-\u9FFF]+$/.test($('#name_0').val())) {
+                            $.alert('name只能为中文');
+                            return false;
+                        }
+                        // password只能为数字
+                        if (!/^\d+$/.test($('#password_0').val())) {
+                            $.alert('password只能为数字');
+                            return false;
+                        }
+                        // permission只能为0到9数字
+                        if (!/^\d+$/.test($('#permission_0').val())) {
+                            $.alert('permission只能为0到9数字');
+                            return false;
+                        } else {
+                            $.post(
+                                'http://localhost:3030/update', {
+                                    up: arr[1],
+                                    username: $('#usern_0').val(),
+                                    name: $('#name_0').val(),
+                                    password: $('#password_0').val(),
+                                    permission: $('#permission_0').val()
+                                },
+                                function (res) {
+                                    if (res.status) {
+                                        $.alert('修改成功');
+                                    }
+                                }
+                            )
+                        }
+
+                    })
+                }
+            })
+        }
+    })
+</script>
